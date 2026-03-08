@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/auth-context";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
@@ -102,6 +103,15 @@ function LoginForm() {
         >
           {submitting ? "Signing in..." : "Sign in"}
         </Button>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Don&apos;t have an account?{' '}
+          <Link
+            href="/signup"
+            className="font-medium text-brand-600 hover:underline"
+          >
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   );

@@ -91,7 +91,11 @@ export default function MaintenancePage() {
   }
 
   useEffect(() => {
-    load();
+    if (!user) return;
+    queueMicrotask(() => {
+      void load();
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load refetches on filter change
   }, [user, statusFilter, priorityFilter, propertyFilter]);
 
   async function handleCreateTicket(e: React.FormEvent) {

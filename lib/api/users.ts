@@ -19,3 +19,29 @@ export async function fetchUsers(role?: string) {
     users: (res.data as ApiResponse<{ users: PublicUser[] }>)?.users ?? [],
   };
 }
+
+export async function fetchUserById(id: string) {
+  const res = await apiFetch<ApiResponse<{ user: PublicUser }>>(
+    `/api/v1/users/users/${id}`,
+  );
+  if (res.error) return { user: null, error: res.error };
+  return {
+    user: (res.data as ApiResponse<{ user: PublicUser }>)?.user ?? null,
+  };
+}
+
+export type UpdateUserInput = {
+  name?: string;
+  phone?: string;
+  role?: string;
+};
+
+export async function updateUser(id: string, data: UpdateUserInput) {
+  return apiFetch<ApiResponse<{ user: PublicUser }>>(
+    `/api/v1/users/users/${id}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    },
+  );
+}

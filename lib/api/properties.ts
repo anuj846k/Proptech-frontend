@@ -27,6 +27,49 @@ export async function fetchProperties() {
   };
 }
 
+export type CreatePropertyInput = {
+  name: string;
+  address: string;
+};
+
+export async function createProperty(data: CreatePropertyInput) {
+  return apiFetch<ApiResponse<{ property: Property }>>('/api/v1/properties', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export async function assignManagerToProperty(
+  propertyId: string,
+  managerId: string,
+) {
+  return apiFetch<ApiResponse<{ property: Property }>>(
+    `/api/v1/properties/${propertyId}/assign-manager`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ managerId }),
+    },
+  );
+}
+
+export type CreateUnitInput = {
+  unitNumber: string;
+  floor: number;
+};
+
+export async function createUnit(
+  propertyId: string,
+  data: CreateUnitInput,
+) {
+  return apiFetch<ApiResponse<{ unit: Unit }>>(
+    `/api/v1/properties/${propertyId}/units`,
+    {
+      method: 'POST',
+      body: JSON.stringify(data),
+    },
+  );
+}
+
 export type OccupancyItem = {
   propertyId: string;
   propertyName: string;

@@ -8,6 +8,7 @@ import {
   Building2,
   LayoutDashboard,
   LogOut,
+  Users,
   Wrench,
 } from 'lucide-react';
 import {
@@ -30,6 +31,12 @@ const navItems: { icon: typeof LayoutDashboard; href: string; label: string; rol
     href: '/dashboard/properties',
     label: 'Properties',
     roles: ['ADMIN', 'MANAGER'],
+  },
+  {
+    icon: Users,
+    href: '/dashboard/users',
+    label: 'Users',
+    roles: ['ADMIN'],
   },
 ];
 

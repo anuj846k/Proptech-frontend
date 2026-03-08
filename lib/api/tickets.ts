@@ -156,3 +156,16 @@ export async function updateTicket(
     },
   );
 }
+
+export async function updateTicketProgress(
+  id: string,
+  status: 'IN_PROGRESS' | 'DONE',
+) {
+  return apiFetch<ApiResponse<{ ticket: Ticket }>>(
+    `/api/v1/tickets/${id}/progress`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    },
+  );
+}

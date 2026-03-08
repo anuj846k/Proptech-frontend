@@ -7,6 +7,7 @@ import {
   fetchTicketById,
   assignTicket,
   updateTicket,
+  updateTicketProgress,
 } from '@/lib/api/tickets';
 import { fetchUsers } from '@/lib/api/users';
 import type { Ticket } from '@/lib/api/tickets';
@@ -111,7 +112,11 @@ export default function MaintenanceDetailPage() {
 
   async function handleStatusChange(status: Ticket['status']) {
     if (!id) return;
-    const res = await updateTicket(id, { status });
+    const isTechnician = user?.role === 'TECHNICIAN';
+    const res =
+      isTechnician && (status === 'IN_PROGRESS' || status === 'DONE')
+        ? await updateTicketProgress(id, status)
+        : await updateTicket(id, { status });
     if (!res.error && res.data) {
       const d = res.data as { ticket?: Ticket };
       if (d.ticket) {
@@ -120,6 +125,12 @@ export default function MaintenanceDetailPage() {
         if (!refetch.error && refetch.activity) {
           setActivity((refetch.activity ?? []) as ActivityLog[]);
         }
+      }
+      if (isTechnician) {
+        if (status === 'DONE') toast.success('Ticket marked as done');
+        else if (status === 'IN_PROGRESS') toast.success('Work started');
+      } else {
+        toast.success('Status updated');
       }
     }
   }
@@ -194,11 +205,58 @@ export default function MaintenanceDetailPage() {
                 </div>
 
                 {(user.role === 'ADMIN' || user.role === 'MANAGER') && (
-                  <div className="rounded-[27px] border border-gray-200 bg-white p-6">
-                    <h3 className="mb-4 flex items-center gap-2 text-base font-medium text-[#201f23]">
-                      <User className="h-4 w-4" />
-                      Assign Technician
-                    </h3>
+                  <>
+                    <div className="rounded-[27px] border border-gray-200 bg-white p-6">
+                      <h3 className="mb-4 text-base font-medium text-[#201f23]">
+                        Update Status & Priority
+                      </h3>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <select
+                          value={ticket.status}
+                          onChange={(e) =>
+                            handleStatusChange(
+                              e.target.value as Ticket['status'],
+                            )
+                          }
+                          className="rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                        >
+                          <option value="OPEN">Open</option>
+                          <option value="ASSIGNED">Assigned</option>
+                          <option value="IN_PROGRESS">In Progress</option>
+                          <option value="DONE">Done</option>
+                        </select>
+                        <select
+                          value={ticket.priority}
+                          onChange={(e) => {
+                            const priority = e.target
+                              .value as Ticket['priority'];
+                            updateTicket(id, { priority }).then(async (res) => {
+                              if (!res.error && res.data) {
+                                const d = res.data as { ticket?: Ticket };
+                                if (d.ticket) setTicket(d.ticket);
+                                const refetch = await fetchTicketById(id);
+                                if (!refetch.error && refetch.activity) {
+                                  setActivity(
+                                    (refetch.activity ?? []) as ActivityLog[],
+                                  );
+                                }
+                                toast.success('Priority updated');
+                              }
+                            });
+                          }}
+                          className="rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                        >
+                          <option value="LOW">Low</option>
+                          <option value="MEDIUM">Medium</option>
+                          <option value="HIGH">High</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="rounded-[27px] border border-gray-200 bg-white p-6">
+                      <h3 className="mb-4 flex items-center gap-2 text-base font-medium text-[#201f23]">
+                        <User className="h-4 w-4" />
+                        Assign Technician
+                      </h3>
                     <div className="flex flex-wrap gap-2">
                       <select
                         value={assignTechId}
@@ -221,6 +279,7 @@ export default function MaintenanceDetailPage() {
                       </button>
                     </div>
                   </div>
+                  </>
                 )}
 
                 {user.role === 'TECHNICIAN' &&

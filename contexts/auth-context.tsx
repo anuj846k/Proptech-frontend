@@ -24,8 +24,17 @@ type AuthState = {
   isAuthenticated: boolean;
 };
 
+export type RegisterInput = {
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  role: 'ADMIN' | 'MANAGER' | 'TENANT' | 'TECHNICIAN';
+};
+
 type AuthContextValue = AuthState & {
   login: (email: string, password: string) => Promise<{ error?: string }>;
+  register: (data: RegisterInput) => Promise<{ error?: string }>;
   logout: () => Promise<void>;
   fetchMe: () => Promise<void>;
 };
@@ -69,7 +78,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    fetchMe();
+    queueMicrotask(() => {
+      void fetchMe();
+    });
   }, [fetchMe]);
 
   const login = useCallback(
@@ -98,6 +109,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [fetchMe],
   );
 
+  const register = useCallback(
+    async (data: RegisterInput) => {
+      const body: Record<string, string> = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        role: data.role,
+      };
+      if (data.phone && data.phone.replace(/\D/g, '').length === 10) {
+        body.phone = data.phone.replace(/\D/g, '');
+      }
+      const res = await apiFetch<ApiResponse<{ accessToken?: string; refreshToken?: string }>>(
+        '/api/v1/users/auth/register',
+        {
+          method: 'POST',
+          body: JSON.stringify(body),
+        },
+      );
+      if (res.error) {
+        return { error: res.error.error || res.error.message || 'Registration failed' };
+      }
+      const responseData = res.data as ApiResponse<{ accessToken?: string; refreshToken?: string }>;
+      if (responseData?.accessToken && responseData?.refreshToken) {
+        setTokensFromResponse({
+          accessToken: responseData.accessToken,
+          refreshToken: responseData.refreshToken,
+        });
+        await fetchMe();
+        return {};
+      }
+      return { error: 'Registration failed' };
+    },
+    [fetchMe],
+  );
+
   const logout = useCallback(async () => {
     await apiFetch('/api/v1/users/auth/logout', { method: 'POST' });
     await clearTokens();
@@ -109,6 +155,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         ...state,
         login,
+        register,
         logout,
         fetchMe,
       }}
