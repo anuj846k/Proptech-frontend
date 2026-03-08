@@ -13,8 +13,8 @@ import {
   TrendingDown,
   TrendingUp,
   Wrench,
-} from 'lucide-react';
-import { useMemo } from 'react';
+} from "lucide-react";
+import { useMemo } from "react";
 
 export default function DashboardPreview() {
   const waveformHeights = useMemo(
@@ -31,24 +31,24 @@ export default function DashboardPreview() {
           <div className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center text-white shadow-sm">
             <Building2 className="w-3.5 h-3.5" />
           </div>
-          <span className="font-semibold text-gray-900">PropStack</span>
+          <span className="font-semibold text-gray-900">proptech</span>
         </div>
 
         <nav className="flex flex-col gap-1">
           {[
-            { icon: Home, label: 'Overview', active: true },
-            { icon: Building, label: 'Properties' },
-            { icon: Home, label: 'Units' },
-            { icon: Wrench, label: 'Maintenance' },
-            { icon: Bot, label: 'AI Agents' },
-            { icon: FileText, label: 'Documents' },
+            { icon: Home, label: "Overview", active: true },
+            { icon: Building, label: "Properties" },
+            { icon: Home, label: "Units" },
+            { icon: Wrench, label: "Maintenance" },
+            { icon: Bot, label: "AI Agents" },
+            { icon: FileText, label: "Documents" },
           ].map((item, i) => (
             <div
               key={i}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                 item.active
-                  ? 'bg-gray-200 text-gray-900 font-medium'
-                  : 'text-gray-500 hover:bg-gray-200 hover:text-gray-900'
+                  ? "bg-gray-200 text-gray-900 font-medium"
+                  : "text-gray-500 hover:bg-gray-200 hover:text-gray-900"
               }`}
             >
               <item.icon size={16} />
@@ -199,7 +199,7 @@ export default function DashboardPreview() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <div className="text-sm text-gray-700">
-                    <span className="font-medium text-gray-900">Sara AI</span>{' '}
+                    <span className="font-medium text-gray-900">Sara AI</span>{" "}
                     is calling Tenant in Flat A101 regarding overdue rent
                   </div>
                   <div className="text-xs text-gray-500">
@@ -216,8 +216,8 @@ export default function DashboardPreview() {
                   <div className="text-sm text-gray-700">
                     <span className="font-medium text-gray-900">
                       Maintenance Agent
-                    </span>{' '}
-                    analyzed photo of burst pipe:{' '}
+                    </span>{" "}
+                    analyzed photo of burst pipe:{" "}
                     <span className="text-gray-900 font-medium">
                       Severity High
                     </span>

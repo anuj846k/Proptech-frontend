@@ -12,7 +12,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Dashboard design tokens (Property Management UI Kit) */
 @theme inline {
+  --color-dashboard-bg: #e3e7ea;
+  --color-dashboard-card: #ffffff;
+  --color-dashboard-text: #201f23;
+  --color-dashboard-muted: #596269;
+  --color-dashboard-green: #395917;
+  --color-dashboard-green-dark: #4c6c5a;
+  --color-dashboard-green-soft: #e6efea;
+  --color-dashboard-red: #98140b;
+  --color-dashboard-sidebar: #201f23;
   --color-brand-50: #eff6ff;
   --color-brand-100: #dbeafe;
   --color-brand-200: #bfdbfe;

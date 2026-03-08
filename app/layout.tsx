@@ -1,10 +1,12 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { LoadingProvider } from '@/components/loading-provider';
+import { LoadingProvider } from "@/components/loading-provider";
+import { AuthProvider } from "@/contexts/auth-context";
+import type { Metadata } from "next";
+import { Toaster } from "sonner";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'Propstack',
-  description: 'Build Faster, Ship with Confidence',
+  title: "proptech",
+  description: "Build Faster, Ship with Confidence",
 };
 
 export default function RootLayout({
@@ -15,9 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <LoadingProvider>
-          {children}
-        </LoadingProvider>
+        <AuthProvider>
+          <LoadingProvider>
+            {children}
+            <Toaster richColors />
+          </LoadingProvider>
+        </AuthProvider>
       </body>
     </html>
   );

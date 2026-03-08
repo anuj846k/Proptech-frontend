@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ArrowDown, LeftWingCurve, RightWingCurve } from '@/components/icons';
-import { ArrowDownRight, Building2, Menu, X } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowDown, LeftWingCurve, RightWingCurve } from "@/components/icons";
+import { ArrowDownRight, Building2, Menu, X } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
 const navItems = [
-  { label: 'Features', hasDropdown: false },
-  { label: 'How it Works', hasDropdown: false },
-  { label: 'Pricing', hasDropdown: false },
+  { label: "Features", hasDropdown: false },
+  { label: "How it Works", hasDropdown: false },
+  { label: "Pricing", hasDropdown: false },
 ];
 
 export default function Navbar() {
@@ -24,7 +24,9 @@ export default function Navbar() {
             <div className="w-7 md:w-8 h-7 md:h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-sm">
               <Building2 className="w-4 md:w-5 h-4 md:h-5" />
             </div>
-            <span className="font-bold text-lg md:text-xl tracking-tight">PropStack</span>
+            <span className="font-bold text-lg md:text-xl tracking-tight">
+              proptech
+            </span>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
@@ -44,13 +46,13 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-4 pr-2">
             <Link
-              href="#"
-              className="text- font-medium text-primary transition-colors"
+              href="/login"
+              className="font-medium text-primary transition-colors hover:underline"
             >
               Sign in
             </Link>
             <Link
-              href="#"
+              href="/dashboard"
               className="group relative flex items-stretch h-11 hover:scale-105 transition-all duration-300"
             >
               <span className="relative z-10 flex items-center bg-black text-white px-5 text-sm font-semibold rounded-xl tracking-widest">
