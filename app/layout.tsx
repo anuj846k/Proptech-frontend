@@ -7,6 +7,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "proptech",
   description: "Build Faster, Ship with Confidence",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
