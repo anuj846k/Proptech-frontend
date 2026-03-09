@@ -1,10 +1,12 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/auth-context';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bell, MessageCircle, Search } from 'lucide-react';
+import { Bell, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { fetchNotifications } from '@/lib/api/notifications';
 
 const ROUTE_TITLES: Record<string, { title: string; subtitle: string }> = {
   '/dashboard/maintenance': {
@@ -16,7 +18,7 @@ const ROUTE_TITLES: Record<string, { title: string; subtitle: string }> = {
     subtitle: 'Manage your properties and units',
   },
   '/dashboard/users': {
-    title: 'Users',
+    title: 'Users Management',
     subtitle: 'Manage user accounts and roles',
   },
   '/dashboard/notifications': {
@@ -35,7 +37,16 @@ const DASHBOARD_SUBTITLES: Record<string, string> = {
 export default function DashboardHeader() {
   const { user } = useAuth();
   const pathname = usePathname();
+  const [unreadCount, setUnreadCount] = useState(0);
   const firstName = user?.name?.split(' ')[0] || 'there';
+
+  useEffect(() => {
+    if (!user) return;
+    fetchNotifications().then((res) => {
+      const count = (res.notifications ?? []).filter((n) => !n.isRead).length;
+      setUnreadCount(count);
+    });
+  }, [user, pathname]);
   const isDashboardHome = pathname === '/dashboard';
 
   const routeConfig =
@@ -79,26 +90,22 @@ export default function DashboardHeader() {
           </Button>
         </div>
 
-        <Button
-          type="button"
-          variant="secondary"
-          size="icon"
-          className="relative h-[70px] w-[70px] rounded-full bg-white shadow-sm hover:bg-gray-50"
-          aria-label="Messages"
-        >
-          <MessageCircle className="h-9 w-9 text-[#201f23]" />
-          <span
-            className="absolute top-4 right-4 h-2.5 w-2.5 rounded-full bg-brand-500"
-            aria-hidden
-          />
-        </Button>
+       
 
         <Link
           href="/dashboard/notifications"
-          className="flex h-[70px] w-[70px] items-center justify-center rounded-full bg-white shadow-sm transition-colors hover:bg-gray-50"
-          aria-label="Notifications"
+          className="relative flex h-[70px] w-[70px] items-center justify-center rounded-full bg-white shadow-sm transition-colors hover:bg-gray-50"
+          aria-label={unreadCount > 0 ? `${unreadCount} unread notifications` : 'Notifications'}
         >
           <Bell className="h-9 w-9 text-[#201f23]" />
+          {unreadCount > 0 && (
+            <span
+              className="absolute right-1.5 top-1.5 flex min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-medium text-white"
+              aria-hidden
+            >
+              {unreadCount > 99 ? '99+' : unreadCount}
+            </span>
+          )}
         </Link>
       </div>
     </header>

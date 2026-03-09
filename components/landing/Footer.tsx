@@ -43,8 +43,8 @@ const linkClass =
 
 const Footer = () => {
   return (
-    <footer className="relative flex w-full flex-col items-start bg-[#F5F5F5] pt-[152px]  ">
-      <div className="flex flex-col items-start self-stretch rounded-tl-[48px] rounded-tr-[48px] bg-[#3b82f6] px-6 md:px-16 lg:px-[213px] pb-[64px] pt-[280px] md:pt-[320px] lg:pt-[384px] rounded-b-none">
+    <footer className="relative flex w-full flex-col items-start bg-[#F5F5F5] pt-24 md:pt-[152px]">
+      <div className="flex flex-col items-start self-stretch rounded-tl-[48px] rounded-tr-[48px] rounded-b-none bg-brand-500 px-6 pb-16 pt-[360px] md:px-16 md:pt-[320px] lg:px-[213px] lg:pt-[384px]">
         <div className="flex max-w-[1024px] flex-col items-start gap-[88px] self-stretch px-[24px] py-0">
           <div className="flex flex-col md:flex-row items-start justify-between gap-8 md:gap-16 self-stretch">
             <a
@@ -93,8 +93,8 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1024px] px-6 md:px-8">
-        <div className="relative w-full rounded-[32px] overflow-hidden shadow-2xl flex flex-col items-center justify-center text-center px-4 py-20 md:py-28 border border-white/20">
+      <div className="absolute left-1/2 top-0 w-full max-w-[1024px] -translate-x-1/2 px-4 md:px-8">
+        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-[32px] border border-white/20 px-4 py-14 text-center shadow-2xl md:px-6 md:py-20 lg:py-28">
           <div
             className="absolute inset-0 z-0 blur-[7px] scale-[1.02]"
             style={{
@@ -105,22 +105,22 @@ const Footer = () => {
             }}
           />
 
-          <h1 className="relative z-10 text-4xl md:text-5xl lg:text-[56px] leading-[1.1] font-semibold text-primary mb-10">
+          <h1 className="relative z-10 mb-8 text-3xl font-semibold leading-[1.1] text-primary md:mb-10 md:text-5xl lg:text-[56px]">
             Streamline your maintenance
             <br />
             workflow today
           </h1>
 
-          <div className="relative z-10 flex items-center bg-white/90 backdrop-blur-sm rounded-full p-1.5 w-full max-w-md shadow-lg border border-white/50">
-            <div className="pl-4 pr-2 text-gray-500">
+          <div className="relative z-10 flex w-full max-w-md flex-col gap-2 rounded-[28px] border border-white/50 bg-white/90 p-2 shadow-lg backdrop-blur-sm sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:p-1.5">
+            <div className="pl-3 pr-2 text-gray-500 sm:pl-4">
               <Mail className="w-5 h-5" />
             </div>
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 bg-transparent outline-none text-gray-900 placeholder:text-gray-500 text-sm md:text-base min-w-0"
+              className="min-w-0 flex-1 bg-transparent px-1 text-sm text-gray-900 outline-none placeholder:text-gray-500 md:text-base"
             />
-            <button className="bg-black text-white px-5 py-2.5 md:px-6 md:py-3 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-gray-800 transition-colors shrink-0">
+            <button className="flex shrink-0 items-center justify-center gap-2 rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800 md:px-6 md:py-3">
               Join Waitlist
               <ArrowRight className="w-4 h-4" />
             </button>

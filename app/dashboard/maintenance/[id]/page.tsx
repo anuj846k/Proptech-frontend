@@ -79,6 +79,7 @@ export default function MaintenanceDetailPage() {
       setTicket(res.ticket);
       setImages(res.images ?? []);
       setActivity((res.activity ?? []) as ActivityLog[]);
+      setAssignTechId(res.ticket?.technicianId ?? '');
       setLoading(false);
 
       if (user.role === 'ADMIN' || user.role === 'MANAGER') {
@@ -101,12 +102,12 @@ export default function MaintenanceDetailPage() {
       const d = res.data as { ticket?: Ticket };
       if (d.ticket) {
         setTicket(d.ticket);
+        setAssignTechId(d.ticket.technicianId ?? '');
         const refetch = await fetchTicketById(id);
         if (!refetch.error && refetch.activity) {
           setActivity((refetch.activity ?? []) as ActivityLog[]);
         }
       }
-      setAssignTechId('');
     }
   }
 

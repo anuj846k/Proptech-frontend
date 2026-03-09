@@ -295,7 +295,7 @@ const TrustedBy = () => {
               </div>
             </div>
 
-            <div className="h-10 w-full flex justify-between flex-wrap gap-4">
+            <div className="hidden lg:flex  h-10 w-full justify-between flex-wrap gap-4">
               {logos.map((logo) => (
                 <LogoItem
                   key={logo.name}
