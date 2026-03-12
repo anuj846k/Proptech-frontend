@@ -6,21 +6,21 @@ import { Component1, Component2, Component3 } from "../icons";
 
 const steps = [
   {
-    title: "Tenants Report Issues",
+    title: "Add your properties",
     description:
-      "Tenants submit maintenance requests with photos and descriptions directly from their mobile device. No calls, no emails—just quick and easy reporting.",
+      "Import your properties, units, and current tenancies. Our system automatically sets up rent collection and maintenance workflows.",
     Icon: Component1,
   },
   {
-    title: "Managers Assign & Track",
+    title: "Automate tenant interactions",
     description:
-      "Property managers view all tickets, assign the right technician, set priorities, and track progress in real-time across all properties.",
+      "Our AI voice agent handles rent reminders, maintenance triage, and tenant screening via WhatsApp and phone calls.",
     Icon: Component2,
   },
   {
-    title: "Technicians Resolve Fast",
+    title: "Scale your portfolio",
     description:
-      "Technicians receive assignments on their mobile app, update task status with progress photos, and close tickets efficiently.",
+      "Get real-time insights on vacancy costs, rent intelligence, and maintenance expenses to maximize your ROI.",
     Icon: Component3,
   },
 ];
@@ -43,8 +43,9 @@ const HowItWorks = () => {
     const items = stepsList.querySelectorAll("li");
     if (items.length < 2) return;
 
-    const firstIcon =
-      items[0].querySelector<HTMLDivElement>('div[class*="rounded-full"]');
+    const firstIcon = items[0].querySelector<HTMLDivElement>(
+      'div[class*="rounded-full"]',
+    );
     const lastIcon = items[items.length - 1].querySelector<HTMLDivElement>(
       'div[class*="rounded-full"]',
     );
@@ -56,8 +57,7 @@ const HowItWorks = () => {
 
     const firstCenterY =
       firstRect.top - containerRect.top + firstRect.height / 2;
-    const lastCenterY =
-      lastRect.top - containerRect.top + lastRect.height / 2;
+    const lastCenterY = lastRect.top - containerRect.top + lastRect.height / 2;
     const height = Math.max(0, lastCenterY - firstCenterY);
 
     lineHeightRef.current = height;

@@ -49,13 +49,13 @@ const Description = () => {
     };
   }, []);
 
-  const text = "Property managers handle dozens of maintenance issues daily across multiple buildings and teams. Our platform unifies the entire workflow—from tenant reports to technician completion—in one simple mobile-first system.";
+  const text = "Landlords use our platform to automate rent collection, handle maintenance tickets via WhatsApp, and screen tenants with AI voice agents, blending human expertise with AI capabilities in a unified system.";
   const words = text.split(' ');
 
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-start py-12 md:py-24 px-4 md:px-12 lg:px-24 font-semibold text-2xl md:text-4xl lg:text-5xl leading-tight md:leading-16.5 bg-background text-[#0A0A0A]"
+      className="flex flex-col items-start py-24 px-4 md:px-12 lg:px-[55.75px] font-semibold text-2xl md:text-4xl lg:text-5xl leading-tight md:leading-16.5 bg-background text-[#0A0A0A]"
     >
       <p className="flex flex-wrap">
         {words.map((word, index) => {

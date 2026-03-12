@@ -1,7 +1,7 @@
 import { Rocket, Zap } from "lucide-react";
 import Image from "next/image";
 import type { ComponentType } from "react";
-import { Check, Star } from "../icons";
+import { Check, Star } from "@/components/icons";
 
 type Avatar = { src: string; alt: string };
 type KpiRow = {
@@ -31,9 +31,9 @@ const REALTIME_TABS = [
 ] as const;
 
 const RINGS = [
-  "h-[180px] md:h-[280px] lg:h-[352px] w-[180px] md:w-[280px] lg:w-[352px] border-[rgba(59,130,246,0.40)]",
-  "h-[140px] md:h-[230px] lg:h-[288px] w-[140px] md:w-[230px] lg:w-[288px] border-[rgba(59,130,246,0.60)]",
-  "h-[100px] md:h-[180px] lg:h-[224px] w-[100px] md:w-[180px] lg:w-[224px] border-[rgba(59,130,246,0.80)]",
+  "h-[352px] w-[352px] border-[rgba(59,130,246,0.40)]",
+  "h-[288px] w-[288px] border-[rgba(59,130,246,0.60)]",
+  "h-[224px] w-[224px] border-[rgba(59,130,246,0.80)]",
 ] as const;
 
 const ROUND_CARD = "rounded-[32px]";
@@ -41,38 +41,37 @@ const PHONE_NOTCH =
   "absolute left-1/2 top-2 -translate-x-1/2 rounded-[16777200px] bg-[#262626]";
 const KPI_TILE =
   "flex items-center justify-between rounded-xl bg-[#F5F5F5] p-3";
-const META_TEXT = "text-[12px] leading-4 tracking-[1.2px] text-[#404040]";
 
 const Bento = () => {
   return (
     <section className="w-full bg-background px-4 pb-24 md:px-8 lg:px-10">
       <div className="mx-auto flex w-full max-w-[1024px] flex-col gap-6 xl:flex-row xl:gap-4">
         <div
-          className={`flex w-full flex-col overflow-hidden bg-secondary px-6 pt-6 md:px-8 md:pt-8 xl:h-[658px] xl:w-2/5 ${ROUND_CARD}`}
+          className={`flex w-full flex-col overflow-hidden bg-secondary px-8 pt-8 xl:h-[658px] xl:w-2/5 ${ROUND_CARD}`}
         >
-          <div className="flex flex-col pb-4 md:pb-6">
-            <h2 className="text-center text-2xl md:text-[36px] font-medium leading-tight md:leading-[45px] text-white">
+          <div className="flex flex-col pb-6">
+            <h2 className="text-center text-[36px] font-medium leading-[45px] text-white">
               Automated Workflows
               <br />
               For Every Property
             </h2>
-            <p className="mt-2 md:mt-3 text-center text-xs md:text-sm leading-5 text-white/80">
+            <p className="mt-3 text-center text-sm leading-5 text-white/80">
               Manage units, tenants, and maintenance
               <br />
               tickets effortlessly
             </p>
           </div>
 
-          <div className="flex flex-1 items-end justify-center pb-4 md:pb-0">
-            <div className="relative h-[320px] w-[180px] md:h-[380px] md:w-[210px] lg:h-[460px] lg:w-[256px] rounded-t-[32px] border-x-[6px] border-t-[6px] border-[#262626] bg-[#F5F5F5]">
-              <div className="flex h-[316px] w-[170px] md:h-[374px] md:w-[198px] lg:h-[454px] lg:w-[244px] flex-col rounded-[50px] bg-[#F5F5F5] px-4 md:px-5 pb-4 md:pb-[27.5px] pt-12 md:pt-[72px]">
-                <h3 className="text-xl md:text-[30px] leading-[30px] font-medium tracking-[-0.75px] text-[#171717]">
+          <div className="flex flex-1 items-end justify-center">
+            <div className="relative h-[460px] w-[256px] rounded-t-[32px] border-x-[6px] border-t-[6px] border-[#262626] bg-[#F5F5F5]">
+              <div className="flex h-[454px] w-[244px] flex-col rounded-[50px] bg-[#F5F5F5] px-5 pb-[27.5px] pt-[72px]">
+                <h3 className="text-[30px] leading-[30px] font-medium tracking-[-0.75px] text-[#171717]">
                   Your property
                 </h3>
-                <h3 className="mt-1 text-xl md:text-[30px] leading-[30px] font-medium tracking-[-0.75px] text-[#171717]">
+                <h3 className="mt-1 text-[30px] leading-[30px] font-medium tracking-[-0.75px] text-[#171717]">
                   is ready!
                 </h3>
-                <p className="pb-4 md:pb-8 pt-2 md:pt-4 text-xs md:text-sm leading-5 text-[#737373]">
+                <p className="pb-8 pt-4 text-sm leading-5 text-[#737373]">
                   Add units and invite
                   <br />
                   tenants instantly.
@@ -139,20 +138,20 @@ const Bento = () => {
 
         <div className="flex w-full flex-col gap-3 xl:h-[658px] xl:w-3/5">
           <div
-            className={`relative min-h-[320px] md:min-h-[320px] overflow-hidden bg-[#eff6ff] p-4 md:p-8 xl:h-[320px] ${ROUND_CARD}`}
+            className={`relative min-h-[320px] overflow-hidden bg-[#eff6ff] p-8 xl:h-[320px] ${ROUND_CARD}`}
           >
-            <div className="max-w-[160px] md:max-w-[192px]">
-              <h2 className="text-lg md:text-[24px] leading-[30px] font-medium text-[#171717]">
+            <div className="max-w-[192px]">
+              <h2 className="text-[24px] leading-[30px] font-medium text-[#171717]">
                 Real-time Insights
               </h2>
-              <p className="mt-2 md:mt-3 text-xs md:text-sm leading-5 text-[#525252]">
+              <p className="mt-3 text-sm leading-5 text-[#525252]">
                 Monitor rent collection, vacancies,
                 <br />
                 and maintenance instantly
               </p>
             </div>
 
-            <div className="absolute bottom-4 right-2 md:right-12 top-auto md:top-[7.89%] flex items-end justify-center">
+            <div className="absolute bottom-[7.89%] right-12 top-[7.89%] flex items-center justify-center">
               {RINGS.map((ringClass) => (
                 <div
                   key={ringClass}
@@ -160,66 +159,66 @@ const Bento = () => {
                 />
               ))}
 
-              <div className="relative h-[140px] w-[100px] md:h-[220px] md:w-[160px] lg:h-[288px] lg:w-[192px] overflow-hidden rounded-[20px] md:rounded-[24px] border-4 border-[#262626] bg-[#F5F5F5] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
+              <div className="relative h-[288px] w-[192px] overflow-hidden rounded-[24px] border-4 border-[#262626] bg-[#F5F5F5] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
                 <div className="absolute inset-0 bg-[#F5F5F5]" />
-                <div className="absolute left-2 md:left-3 right-2 md:right-3 top-5 md:top-9 rounded-[16777200px] border border-[#E5E5E5] bg-white px-1 md:px-[9px] py-0.5 md:py-[7px] text-[8px] md:text-[12px] leading-4 text-[#A1A1A1]">
-                  Search...
+                <div className="absolute left-3 right-3 top-9 rounded-[16777200px] border border-[#E5E5E5] bg-white px-[9px] py-[7px] text-[12px] leading-4 text-[#A1A1A1]">
+                  Search properties...
                 </div>
-                <div className="absolute left-2 md:left-3 top-[40px] md:top-[78px] text-[8px] md:text-[12px] leading-4 text-[#737373]">
-                  Active
+                <div className="absolute left-3 top-[78px] text-[12px] leading-4 text-[#737373]">
+                  Active units
                 </div>
-                <div className="absolute left-2 md:left-3 top-12 md:top-24 text-base md:text-[28px] leading-5 md:leading-7 font-medium text-[#171717]">
-                  24
+                <div className="absolute left-3 top-24 text-[28px] leading-7 font-medium text-[#171717]">
+                  24 occupied
                 </div>
-                <div className="absolute left-2 md:left-3 top-[70px] md:top-[136px] flex items-start gap-[2px] md:gap-[6px]">
+                <div className="absolute left-3 top-[136px] flex items-start gap-[6px]">
                   {REALTIME_TABS.map((tab) => (
                     <div
                       key={tab.label}
                       className={
                         tab.active
-                          ? "rounded-[16777200px] bg-[#3b82f6] px-1.5 md:px-[10px] py-0.5 text-[8px] md:text-[12px] leading-4 text-white"
-                          : "px-1 py-0.5 text-[8px] md:text-[12px] leading-4 text-[#A1A1A1]"
+                          ? "rounded-[16777200px] bg-[#3b82f6] px-[10px] py-1 text-[12px] leading-4 text-white"
+                          : "px-2 py-1 text-[12px] leading-4 text-[#A1A1A1]"
                       }
                     >
                       {tab.label}
                     </div>
                   ))}
                 </div>
-                <div className={`${PHONE_NOTCH} h-2 md:h-4 w-10 md:w-16`} />
+                <div className={`${PHONE_NOTCH} h-4 w-16`} />
               </div>
 
-              <div className="absolute -bottom-1 md:-bottom-3 left-1/2 w-36 md:w-52 -translate-x-1/2 rounded-lg md:rounded-2xl bg-[#171717] px-2 md:px-6 py-1.5 md:py-3 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.10),0_8px_10px_-6px_rgba(0,0,0,0.10)]">
-                <div className="flex items-center gap-1 md:gap-2 text-[8px] md:text-[12px] leading-4 text-[#A1A1A1]">
-                  <span>Status</span>
+              <div className="absolute -bottom-3 left-1/2 w-52 -translate-x-1/2 rounded-2xl bg-[#171717] px-6 py-3 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.10),0_8px_10px_-6px_rgba(0,0,0,0.10)]">
+                <div className="flex items-center gap-2 text-[12px] leading-4 text-[#A1A1A1]">
+                  <span>Collection status</span>
                   <span className="text-[#737373]">ⓘ</span>
                 </div>
-                <div className="mt-0.5 flex items-center gap-1 md:gap-3">
-                  <span className="text-xs md:text-base font-medium text-white">
+                <div className="mt-0.5 flex items-center gap-3">
+                  <span className="text-base font-medium text-white">
                     All paid
                   </span>
-                  <span className="rounded bg-[#3b82f633] px-1 md:px-2 py-0.5 text-[8px] md:text-[12px] leading-4 text-[#3b82f6]">
-                    ✓
+                  <span className="rounded bg-[#3b82f633] px-2 py-[2px] text-[12px] leading-4 text-[#3b82f6]">
+                    ✓ 100%
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="grid w-full gap-3 md:gap-4 md:grid-cols-2 xl:flex-1 xl:grid-cols-2">
+          <div className="grid w-full gap-4 md:grid-cols-2 xl:flex-1 xl:grid-cols-2">
             <div
-              className={`flex min-h-[200px] md:min-h-[256px] flex-col items-center justify-center bg-[#eff6ff] p-4 md:p-8 xl:h-full ${ROUND_CARD}`}
+              className={`flex min-h-[256px] flex-col items-center justify-center bg-[#eff6ff] p-8 xl:h-full ${ROUND_CARD}`}
             >
-              <h3 className="text-center text-lg md:text-[24px] font-[510] text-[#171717]">
+              <h3 className="text-center text-[24px] font-[510] text-[#171717]">
                 Trusted By
                 <br />
                 254k+ Users
               </h3>
 
-              <div className="mt-3 md:mt-5 flex items-center pr-2 md:pr-4">
+              <div className="mt-5 flex items-center pr-4">
                 {AVATARS.map((avatar, index) => (
                   <div
                     key={avatar.src}
-                    className={`relative h-10 w-10 md:h-12 md:w-12 overflow-hidden rounded-full border-2 border-white/25 ${index === 0 ? "" : "-ml-2 md:-ml-3"
+                    className={`relative h-12 w-12 overflow-hidden rounded-full border-2 border-white/25 ${index === 0 ? "" : "-ml-3"
                       }`}
                   >
                     <Image
@@ -231,41 +230,41 @@ const Bento = () => {
                     />
                   </div>
                 ))}
-                <div className="-ml-2 md:-ml-3 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full border-2 border-white/25 bg-[#3b82f6] text-xs md:text-sm leading-5 font-semibold text-white">
+                <div className="-ml-3 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/25 bg-[#3b82f6] text-sm leading-5 font-semibold text-white">
                   5+
                 </div>
               </div>
 
-              <div className="mt-3 md:mt-5 inline-flex items-center gap-1 md:gap-2 text-[10px] md:text-xs font-medium leading-4 text-[#525252]">
+              <div className="mt-5 inline-flex items-center gap-2 text-xs font-medium leading-4 text-[#525252]">
                 <Star />
                 <span>4.9 from 48k+ reviews</span>
               </div>
             </div>
 
             <div
-              className={`flex min-h-[200px] md:min-h-[256px] flex-col bg-secondary p-4 md:p-8 xl:h-full ${ROUND_CARD}`}
+              className={`flex min-h-[256px] flex-col bg-secondary p-8 xl:h-full ${ROUND_CARD}`}
             >
-              <div className="flex min-h-[60px] md:min-h-[78px] flex-1 flex-col gap-2 pb-4 md:pb-[22px]">
-                <h3 className="text-lg md:text-[24px] leading-[30px] font-medium text-white">
+              <div className="flex min-h-[78px] flex-1 flex-col gap-2 pb-[22px]">
+                <h3 className="text-[24px] leading-[30px] font-medium text-white">
                   Built to Scale
                 </h3>
-                <p className="text-xs md:text-sm leading-5 text-white/80">
+                <p className="text-sm leading-5 text-white/80">
                   Enterprise-ready property management that
                   <br />
                   scales with your portfolio
                 </p>
               </div>
 
-              <div className="mt-1 md:mt-2 flex flex-col gap-2">
+              <div className="mt-2 flex flex-col gap-2">
                 {KPI_ROWS.map((row) => (
                   <div key={row.label} className={KPI_TILE}>
                     <div className="flex items-center gap-2">
                       <row.Icon className="h-4 w-4 text-[#737373]" />
-                      <span className="text-xs md:text-sm leading-6 font-medium text-[#0A0A0A]">
+                      <span className="text-sm leading-6 font-medium text-[#0A0A0A]">
                         {row.label}
                       </span>
                     </div>
-                    <span className="text-xs md:text-sm leading-5 font-medium text-black">
+                    <span className="text-sm leading-5 font-medium text-black">
                       {row.delta}
                     </span>
                   </div>

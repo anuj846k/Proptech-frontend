@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { MyChevronDown } from '../icons';
-import Link from 'next/link';
+import { useState } from "react";
+import { MyChevronDown } from "../icons";
+import Link from "next/link";
 
 type FAQItem = {
   que: string;
@@ -12,24 +12,24 @@ type FAQItem = {
 const FAQ = () => {
   const faqs: FAQItem[] = [
     {
-      que: 'How do tenants submit maintenance requests?',
-      ans: 'Tenants can submit requests through our mobile-first web portal. They simply fill in the issue title, description, and upload photos directly from their phone. No app download required.',
+      que: "How does the AI voice agent work?",
+      ans: "Our AI voice agent uses advanced natural language processing to converse with tenants in multiple regional languages. It can handle rent reminders, negotiate payment plans, and triage maintenance issues just like a human property manager.",
     },
     {
-      que: 'Can property managers assign tasks to specific technicians?',
-      ans: 'Yes! Property managers can view all open tickets, check technician availability, and assign the right person for each job. They can also set priority levels and due dates.',
+      que: "Do my tenants need to download an app?",
+      ans: "No! We know tenant app adoption is low. All tenant interactions happen natively through WhatsApp and phone calls. Only landlords and property managers need to use our dashboard.",
     },
     {
-      que: 'How do technicians receive and update tasks?',
-      ans: 'Technicians receive push notifications for new assignments. They can view their task list, update status (Assigned → In Progress → Completed), and add completion notes with photos.',
+      que: "How do you handle maintenance requests?",
+      ans: "Tenants send a message or photo via WhatsApp. Our AI analyzes the issue, determines the severity, and automatically contacts the appropriate vendor from your preferred list to schedule a repair.",
     },
     {
-      que: 'What happens to requests after they are completed?',
-      ans: 'Once a technician marks a task as complete and the tenant confirms, the ticket is archived. Managers can view historical data and reports on response times and completion rates.',
+      que: "What is Rent Price Intelligence?",
+      ans: "Our system continuously analyzes comparable properties in your area. Every 6 months, we provide a report showing if you are undercharging for rent, helping you maximize your rental yield.",
     },
     {
-      que: 'Is there a notification system?',
-      ans: 'Yes! The system sends email notifications for key events: new requests, assignments, status changes, and task completions. Everyone stays informed in real-time.',
+      que: "How does the security deposit dispute resolution work?",
+      ans: "We facilitate move-in and move-out video walkthroughs. Our AI analyzes the videos to document the condition of the unit, creating an indisputable visual record that prevents 'he said, she said' disputes.",
     },
   ];
 
@@ -83,8 +83,9 @@ const FAQ = () => {
                 </h1>
 
                 <MyChevronDown
-                  className={`flex flex-col items-start w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 shrink-0 ${activeIndex === index ? 'rotate-180' : 'rotate-0'
-                    }`}
+                  className={`flex flex-col items-start w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 shrink-0 ${
+                    activeIndex === index ? "rotate-180" : "rotate-0"
+                  }`}
                 />
               </div>
 

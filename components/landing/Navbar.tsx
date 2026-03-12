@@ -25,7 +25,7 @@ export default function Navbar() {
               <Building2 className="w-4 md:w-5 h-4 md:h-5" />
             </div>
             <span className="font-bold text-lg md:text-xl tracking-tight">
-              proptech
+              Proptech
             </span>
           </Link>
 

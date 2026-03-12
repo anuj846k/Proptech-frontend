@@ -19,20 +19,20 @@ export default function Hero() {
 
           <div className="mb-4 md:mb-6 flex flex-col items-center leading-none text-center">
             <h1 className="text-3xl md:text-5xl lg:text-8xl font-medium tracking-[-0.02em] text-black md:leading-[1.02]">
-              <span className="block">Property Maintenance</span>
+              <span className="block">Manage Your Properties</span>
               <span className="block">
-                Made{" "}
+                with{" "}
                 <span className="font-serif font-normal italic text-brand-500">
-                  Effortless
+                  AI Intelligence
                 </span>
               </span>
             </h1>
           </div>
 
-          <p className="mb-6 md:mb-8 max-w-2xl text-center text-sm md:text-base leading-6 md:leading-7 text-[#2849ee] lg:text-lg">
-            The mobile-first platform for property managers, tenants, and
-            technicians. Streamline maintenance workflows, track issues in
-            real-time, and keep everyone connected.
+          <p className="mb-6 md:mb-8 max-w-2xl text-center text-sm md:text-base leading-6 md:leading-7 text-[#525252] lg:text-lg">
+            The AI-native property management platform for landlords and
+            tenants. Automate rent collection, maintenance, and tenant
+            screening.
           </p>
 
           <Link href="/dashboard" className="group relative">
