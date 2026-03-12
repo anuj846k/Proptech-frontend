@@ -9,14 +9,40 @@ export type PublicUser = {
   createdAt: string | null;
 };
 
-export async function fetchUsers(role?: string) {
-  const path = role
-    ? `/api/v1/users/users?role=${encodeURIComponent(role)}`
-    : '/api/v1/users/users';
-  const res = await apiFetch<ApiResponse<{ users: PublicUser[] }>>(path);
-  if (res.error) return { users: [], error: res.error };
+export type PaginatedUsersResponse = {
+  users: PublicUser[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export async function fetchUsers(
+  opts: { role?: string; page?: number; limit?: number } = {},
+) {
+  const params = new URLSearchParams();
+  if (opts.role) params.set('role', opts.role);
+  if (opts.page) params.set('page', String(opts.page));
+  if (opts.limit) params.set('limit', String(opts.limit));
+  const qs = params.toString();
+  const path = `/api/v1/users/users${qs ? `?${qs}` : ''}`;
+  const res = await apiFetch<ApiResponse<PaginatedUsersResponse>>(path);
+  if (res.error)
+    return {
+      users: [],
+      total: 0,
+      page: 1,
+      limit: 10,
+      totalPages: 0,
+      error: res.error,
+    };
+  const data = res.data as ApiResponse<PaginatedUsersResponse>;
   return {
-    users: (res.data as ApiResponse<{ users: PublicUser[] }>)?.users ?? [],
+    users: data?.users ?? [],
+    total: data?.total ?? 0,
+    page: data?.page ?? 1,
+    limit: data?.limit ?? 10,
+    totalPages: data?.totalPages ?? 0,
   };
 }
 

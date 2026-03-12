@@ -1,20 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import { useAuth } from '@/contexts/auth-context';
+import type { ApiError } from '@/lib/api';
 import {
   fetchUsers,
   updateUser,
   type PublicUser,
   type UpdateUserInput,
 } from '@/lib/api/users';
-import type { ApiError } from '@/lib/api';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
-import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { AlertCircle, Pencil } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 const ROLES = ['ADMIN', 'MANAGER', 'TECHNICIAN', 'TENANT'] as const;
+const PAGE_SIZE = 10;
 
 export default function UsersPage() {
   const { user } = useAuth();
@@ -24,22 +34,32 @@ export default function UsersPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<UpdateUserInput>({});
   const [saving, setSaving] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  async function load() {
-    if (!user || user.role !== 'ADMIN') return;
-    setError(null);
-    const res = await fetchUsers();
-    setUsers(res.users ?? []);
-    setError(res.error ?? null);
-  }
+  const load = useCallback(
+    async (page: number = currentPage) => {
+      if (!user || user.role !== 'ADMIN') return;
+      setError(null);
+      const res = await fetchUsers({ page, limit: PAGE_SIZE });
+      setUsers(res.users ?? []);
+      setTotalPages(res.totalPages || 1);
+      setError(res.error ?? null);
+    },
+    [user, currentPage],
+  );
 
   useEffect(() => {
     if (!user || user.role !== 'ADMIN') return;
     queueMicrotask(() => {
-      void load().finally(() => setLoading(false));
+      void load(currentPage).finally(() => setLoading(false));
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- load used for refetch, user is the trigger
-  }, [user]);
+  }, [user, currentPage, load]);
+
+  function handlePageChange(page: number) {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  }
 
   async function handleStartEdit(u: PublicUser) {
     setEditingId(u.id);
@@ -54,7 +74,8 @@ export default function UsersPage() {
     if (!editingId) return;
     const payload: UpdateUserInput = {};
     if (editForm.name !== undefined) payload.name = editForm.name;
-    if (editForm.phone !== undefined) payload.phone = editForm.phone || undefined;
+    if (editForm.phone !== undefined)
+      payload.phone = editForm.phone || undefined;
     if (editForm.role !== undefined) payload.role = editForm.role;
     if (Object.keys(payload).length === 0) {
       setEditingId(null);
@@ -66,7 +87,7 @@ export default function UsersPage() {
     if (!res.error) {
       toast.success('User updated');
       setEditingId(null);
-      load();
+      load(currentPage);
     } else {
       toast.error(res.error?.error ?? 'Failed to update user');
     }
@@ -124,7 +145,10 @@ export default function UsersPage() {
                               type="text"
                               value={editForm.name ?? ''}
                               onChange={(e) =>
-                                setEditForm((f) => ({ ...f, name: e.target.value }))
+                                setEditForm((f) => ({
+                                  ...f,
+                                  name: e.target.value,
+                                }))
                               }
                               className="w-full max-w-[140px] rounded-lg border border-gray-200 px-2 py-1 text-sm"
                             />
@@ -137,7 +161,9 @@ export default function UsersPage() {
                               onChange={(e) =>
                                 setEditForm((f) => ({
                                   ...f,
-                                  phone: e.target.value.replace(/\D/g, '').slice(0, 10),
+                                  phone: e.target.value
+                                    .replace(/\D/g, '')
+                                    .slice(0, 10),
                                 }))
                               }
                               placeholder="10 digits"
@@ -212,6 +238,80 @@ export default function UsersPage() {
                 </tbody>
               </table>
             </div>
+          )}
+
+          {!loading && !error && totalPages > 1 && (
+            <Pagination className="mt-6">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(currentPage - 1);
+                    }}
+                    aria-disabled={currentPage <= 1}
+                    className={
+                      currentPage <= 1
+                        ? 'pointer-events-none opacity-50'
+                        : 'cursor-pointer'
+                    }
+                  />
+                </PaginationItem>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                  .filter((page) => {
+                    if (totalPages <= 7) return true;
+                    if (page === 1 || page === totalPages) return true;
+                    if (Math.abs(page - currentPage) <= 1) return true;
+                    return false;
+                  })
+                  .reduce<(number | 'ellipsis')[]>((acc, page, idx, arr) => {
+                    if (idx > 0 && page - (arr[idx - 1] ?? 0) > 1) {
+                      acc.push('ellipsis');
+                    }
+                    acc.push(page);
+                    return acc;
+                  }, [])
+                  .map((item, idx) =>
+                    item === 'ellipsis' ? (
+                      <PaginationItem key={`ellipsis-${idx}`}>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                    ) : (
+                      <PaginationItem key={item}>
+                        <PaginationLink
+                          href="#"
+                          isActive={item === currentPage}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange(item);
+                          }}
+                          className="cursor-pointer"
+                        >
+                          {item}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ),
+                  )}
+
+                <PaginationItem>
+                  <PaginationNext
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(currentPage + 1);
+                    }}
+                    aria-disabled={currentPage >= totalPages}
+                    className={
+                      currentPage >= totalPages
+                        ? 'pointer-events-none opacity-50'
+                        : 'cursor-pointer'
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           )}
         </div>
       </main>
