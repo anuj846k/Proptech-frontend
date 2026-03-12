@@ -47,8 +47,8 @@ export default function PropertyDetailPage() {
     setLoading(true);
     const [propRes, tenantsRes, managersRes] = await Promise.all([
       fetchPropertyById(id),
-      fetchUsers('TENANT'),
-      user.role === 'ADMIN' ? fetchUsers('MANAGER') : Promise.resolve({ users: [] }),
+      fetchUsers({ role: 'TENANT' }),
+      user.role === 'ADMIN' ? fetchUsers({ role: 'MANAGER' }) : Promise.resolve({ users: [] }),
     ]);
     if (propRes.error) {
       router.replace('/dashboard/properties');
