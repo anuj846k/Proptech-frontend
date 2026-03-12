@@ -1,22 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { useAuth } from '@/contexts/auth-context';
+import type { Property, Unit } from '@/lib/api/properties';
 import {
-  fetchPropertyById,
-  assignTenantToUnit,
   assignManagerToProperty,
+  assignTenantToUnit,
   createUnit,
+  fetchPropertyById,
   type CreateUnitInput,
 } from '@/lib/api/properties';
 import { fetchUsers } from '@/lib/api/users';
-import type { Property, Unit } from '@/lib/api/properties';
-import { toast } from 'sonner';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
-import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import { ArrowLeft, Building2 } from 'lucide-react';
 import Link from 'next/link';
-import { Building2, ArrowLeft } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export default function PropertyDetailPage() {
   const params = useParams();
@@ -48,7 +48,9 @@ export default function PropertyDetailPage() {
     const [propRes, tenantsRes, managersRes] = await Promise.all([
       fetchPropertyById(id),
       fetchUsers({ role: 'TENANT' }),
-      user.role === 'ADMIN' ? fetchUsers({ role: 'MANAGER' }) : Promise.resolve({ users: [] }),
+      user.role === 'ADMIN'
+        ? fetchUsers({ role: 'MANAGER' })
+        : Promise.resolve({ users: [] }),
     ]);
     if (propRes.error) {
       router.replace('/dashboard/properties');
@@ -73,10 +75,7 @@ export default function PropertyDetailPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- load is stable, deps are user/id/router
   }, [user, id, router]);
 
-  async function handleAssignTenant(
-    unitId: string,
-    tenantId: string | null,
-  ) {
+  async function handleAssignTenant(unitId: string, tenantId: string | null) {
     if (!id) return;
     setAssigningUnitId(unitId);
     const res = await assignTenantToUnit(id, unitId, tenantId);
@@ -210,7 +209,9 @@ export default function PropertyDetailPage() {
                   <h4 className="mb-3 text-sm font-medium">New Unit</h4>
                   <div className="flex flex-wrap items-end gap-4">
                     <div>
-                      <label className="mb-1 block text-xs font-medium">Unit #</label>
+                      <label className="mb-1 block text-xs font-medium">
+                        Unit #
+                      </label>
                       <input
                         type="text"
                         value={unitForm.unitNumber}
@@ -226,7 +227,9 @@ export default function PropertyDetailPage() {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs font-medium">Floor</label>
+                      <label className="mb-1 block text-xs font-medium">
+                        Floor
+                      </label>
                       <input
                         type="number"
                         min={0}
@@ -265,7 +268,9 @@ export default function PropertyDetailPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-gray-200 text-left">
-                        <th className="pb-3 font-medium text-[#201f23]">Unit</th>
+                        <th className="pb-3 font-medium text-[#201f23]">
+                          Unit
+                        </th>
                         <th className="pb-3 font-medium text-[#201f23]">
                           Floor
                         </th>
@@ -279,10 +284,7 @@ export default function PropertyDetailPage() {
                     </thead>
                     <tbody>
                       {units.map((u) => (
-                        <tr
-                          key={u.id}
-                          className="border-b border-gray-100"
-                        >
+                        <tr key={u.id} className="border-b border-gray-100">
                           <td className="py-3 text-[#201f23]">
                             {u.unitNumber}
                           </td>
@@ -302,12 +304,8 @@ export default function PropertyDetailPage() {
                             {u.tenantId ? (
                               <button
                                 type="button"
-                                onClick={() =>
-                                  handleAssignTenant(u.id, null)
-                                }
-                                disabled={
-                                  assigningUnitId === u.id
-                                }
+                                onClick={() => handleAssignTenant(u.id, null)}
+                                disabled={assigningUnitId === u.id}
                                 className="text-xs font-medium text-red-600 hover:underline disabled:opacity-50"
                               >
                                 {assigningUnitId === u.id
@@ -319,8 +317,7 @@ export default function PropertyDetailPage() {
                                 value=""
                                 onChange={(e) => {
                                   const tid = e.target.value;
-                                  if (tid)
-                                    handleAssignTenant(u.id, tid);
+                                  if (tid) handleAssignTenant(u.id, tid);
                                 }}
                                 disabled={
                                   assigningUnitId === u.id ||
