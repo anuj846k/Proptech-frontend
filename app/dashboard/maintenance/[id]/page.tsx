@@ -1,31 +1,31 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import { TicketImageLightbox } from '@/components/dashboard/TicketImageLightbox';
 import { useAuth } from '@/contexts/auth-context';
+import type { Ticket } from '@/lib/api/tickets';
 import {
-  fetchTicketById,
   assignTicket,
+  fetchTicketById,
   updateTicket,
   updateTicketProgress,
 } from '@/lib/api/tickets';
 import { fetchUsers } from '@/lib/api/users';
-import type { Ticket } from '@/lib/api/tickets';
-import { getTicketStatusBadgeClass, getPriorityBadgeClass } from '@/lib/status';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
-import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import Link from 'next/link';
+import { getPriorityBadgeClass, getTicketStatusBadgeClass } from '@/lib/status';
 import {
-  ArrowLeft,
-  Wrench,
-  Calendar,
   AlertTriangle,
-  User,
+  ArrowLeft,
+  Calendar,
   Clock,
   ImageIcon,
+  User,
+  Wrench,
 } from 'lucide-react';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { TicketImageLightbox } from '@/components/dashboard/TicketImageLightbox';
 
 export type ActivityLog = {
   id: string;
@@ -49,7 +49,10 @@ function formatDate(dateStr: string | null) {
 }
 
 function formatActionType(type: string) {
-  return type.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+  return type
+    .replace(/_/g, ' ')
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export default function MaintenanceDetailPage() {
@@ -60,13 +63,16 @@ export default function MaintenanceDetailPage() {
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [images, setImages] = useState<{ imageUrl: string }[]>([]);
   const [activity, setActivity] = useState<ActivityLog[]>([]);
-  const [technicians, setTechnicians] = useState<{ id: string; name: string }[]>(
-    [],
-  );
+  const [technicians, setTechnicians] = useState<
+    { id: string; name: string }[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [assignTechId, setAssignTechId] = useState('');
   const [assigning, setAssigning] = useState(false);
-  const [lightboxImage, setLightboxImage] = useState<{ url: string; alt: string } | null>(null);
+  const [lightboxImage, setLightboxImage] = useState<{
+    url: string;
+    alt: string;
+  } | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -83,7 +89,7 @@ export default function MaintenanceDetailPage() {
       setLoading(false);
 
       if (user.role === 'ADMIN' || user.role === 'MANAGER') {
-        const usersRes = await fetchUsers('TECHNICIAN');
+        const usersRes = await fetchUsers({ role: 'TECHNICIAN' });
         setTechnicians(
           (usersRes.users ?? []).map((u) => ({ id: u.id, name: u.name })),
         );
@@ -176,7 +182,9 @@ export default function MaintenanceDetailPage() {
                       <h2 className="text-2xl font-medium text-[#201f23]">
                         {ticket.title}
                       </h2>
-                      <p className="mt-2 text-[#596269]">{ticket.description}</p>
+                      <p className="mt-2 text-[#596269]">
+                        {ticket.description}
+                      </p>
                     </div>
                   </div>
 
@@ -258,28 +266,28 @@ export default function MaintenanceDetailPage() {
                         <User className="h-4 w-4" />
                         Assign Technician
                       </h3>
-                    <div className="flex flex-wrap gap-2">
-                      <select
-                        value={assignTechId}
-                        onChange={(e) => setAssignTechId(e.target.value)}
-                        className="rounded-lg border border-gray-200 px-3 py-2 text-sm"
-                      >
-                        <option value="">Select technician</option>
-                        {technicians.map((t) => (
-                          <option key={t.id} value={t.id}>
-                            {t.name}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        onClick={handleAssign}
-                        disabled={!assignTechId || assigning}
-                        className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50"
-                      >
-                        {assigning ? 'Assigning...' : 'Assign'}
-                      </button>
+                      <div className="flex flex-wrap gap-2">
+                        <select
+                          value={assignTechId}
+                          onChange={(e) => setAssignTechId(e.target.value)}
+                          className="rounded-lg border border-gray-200 px-3 py-2 text-sm"
+                        >
+                          <option value="">Select technician</option>
+                          {technicians.map((t) => (
+                            <option key={t.id} value={t.id}>
+                              {t.name}
+                            </option>
+                          ))}
+                        </select>
+                        <button
+                          onClick={handleAssign}
+                          disabled={!assignTechId || assigning}
+                          className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 disabled:opacity-50"
+                        >
+                          {assigning ? 'Assigning...' : 'Assign'}
+                        </button>
+                      </div>
                     </div>
-                  </div>
                   </>
                 )}
 
