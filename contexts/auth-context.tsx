@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { apiFetch, clearTokens, type ApiResponse } from '@/lib/api';
+import { apiFetch, type ApiResponse } from '@/lib/api';
 
 export type User = {
   id: string;
@@ -40,20 +40,6 @@ type AuthContextValue = AuthState & {
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
-
-async function setTokensFromResponse(data: {
-  accessToken?: string;
-  refreshToken?: string;
-}) {
-  if (
-    typeof window !== 'undefined' &&
-    data.accessToken &&
-    data.refreshToken
-  ) {
-    sessionStorage.setItem('access_token', data.accessToken);
-    sessionStorage.setItem('refresh_token', data.refreshToken);
-  }
-}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AuthState>({
@@ -95,16 +81,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (res.error) {
         return { error: res.error.error || res.error.message || 'Login failed' };
       }
-      const data = res.data as ApiResponse<{ accessToken?: string; refreshToken?: string }>;
-      if (data?.accessToken && data?.refreshToken) {
-        setTokensFromResponse({
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-        });
-        await fetchMe();
-        return {};
-      }
-      return { error: 'Login failed' };
+      await fetchMe();
+      return {};
     },
     [fetchMe],
   );
@@ -130,23 +108,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (res.error) {
         return { error: res.error.error || res.error.message || 'Registration failed' };
       }
-      const responseData = res.data as ApiResponse<{ accessToken?: string; refreshToken?: string }>;
-      if (responseData?.accessToken && responseData?.refreshToken) {
-        setTokensFromResponse({
-          accessToken: responseData.accessToken,
-          refreshToken: responseData.refreshToken,
-        });
-        await fetchMe();
-        return {};
-      }
-      return { error: 'Registration failed' };
+      await fetchMe();
+      return {};
     },
     [fetchMe],
   );
 
   const logout = useCallback(async () => {
     await apiFetch('/api/v1/users/auth/logout', { method: 'POST' });
-    await clearTokens();
     setState({ user: null, isLoading: false, isAuthenticated: false });
   }, []);
 

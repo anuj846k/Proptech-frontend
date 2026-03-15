@@ -75,13 +75,8 @@ export async function createTicket(
 
     const API_BASE =
       process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-    const token =
-      typeof window !== 'undefined' ? sessionStorage.getItem('access_token') : null;
-    const headers: HeadersInit = {};
-    if (token) (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
     const res = await fetch(`${API_BASE}/api/v1/tickets`, {
       method: 'POST',
-      headers,
       body: formData,
       credentials: 'include',
     });
